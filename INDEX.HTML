@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Página de prueba corta</title>
+  <style>
+    :root{
+      --bg:#f7f9fc; --card:#fff; --text:#0b1220; --accent:#4f46e5;
+    }
+    [data-theme="dark"]{ --bg:#0b1220; --card:#0f1724; --text:#e6eef8; --accent:#7c3aed; }
+    body{
+      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,var(--bg),#eaf2ff); color:var(--text);
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      padding:2rem;
+    }
+    .card{
+      background:var(--card); border-radius:12px; box-shadow:0 6px 24px rgba(11,17,32,0.12);
+      padding:1.5rem; width:100%; max-width:720px;
+    }
+    header{ display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+    h1{ margin:0; font-size:1.25rem; }
+    p.lead{ margin:0.5rem 0 1rem; color:rgba(11,17,32,0.7); }
+    .controls{ display:flex; gap:0.5rem; align-items:center; }
+    button, input[type="text"]{
+      font-size:0.95rem; padding:0.5rem 0.75rem; border-radius:8px; border:1px solid #e6eef8;
+      background:white; color:var(--text);
+    }
+    .greet{ margin-top:1rem; padding:0.75rem; border-radius:8px; background:linear-gradient(90deg,rgba(79,70,229,0.08),rgba(124,58,237,0.04)); color:var(--text); }
+    footer{ margin-top:1rem; font-size:0.85rem; color:rgba(11,17,32,0.6); display:flex; justify-content:space-between; align-items:center; }
+    .small{ font-size:0.85rem; color:rgba(11,17,32,0.6); }
+    .accent{ background:var(--accent); color:white; border:none; }
+    @media (prefers-color-scheme:dark){
+      :root{ --bg:#071029; --card:#071022; --text:#e6eef8; --accent:#7c3aed; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="app">
+    <header>
+      <div>
+        <h1>Página de prueba</h1>
+        <p class="lead">Una página corta para probar HTML, CSS y JavaScript.</p>
+      </div>
+      <div class="controls">
+        <label for="name" class="small">Nombre:</label>
+        <input id="name" type="text" placeholder="Escribe tu nombre" />
+        <button id="greetBtn" class="accent">Saludar</button>
+        <button id="themeBtn" title="Cambiar tema">Tema</button>
+      </div>
+    </header>
+
+    <section class="greet" id="greeting" aria-live="polite">
+      Hola — ingresa tu nombre y pulsa "Saludar".
+    </section>
+
+    <footer>
+      <span class="small">Esta es una página de prueba — sencilla y accesible.</span>
+      <span class="small">2026</span>
+    </footer>
+  </div>
+
+  <script>
+    const nameInput = document.getElementById('name');
+    const greetBtn = document.getElementById('greetBtn');
+    const greeting = document.getElementById('greeting');
+    const themeBtn = document.getElementById('themeBtn');
+    const doc = document.documentElement;
+
+    // Mostrar saludo
+    greetBtn.addEventListener('click', () => {
+      const name = nameInput.value.trim();
+      greeting.textContent = name ? `¡Hola, ${name}! Bienvenido/a.` : 'Hola — por favor escribe tu nombre.';
+    });
+
+    // Permite Enter para saludar
+    nameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') greetBtn.click();
+    });
+
+    // Alternar tema claro/oscuro
+    themeBtn.addEventListener('click', () => {
+      const current = doc.getAttribute('data-theme');
+      if (current === 'dark') doc.removeAttribute('data-theme');
+      else doc.setAttribute('data-theme', 'dark');
+    });
+
+    // Pequeña animación de entrada
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('app').style.transform = 'translateY(4px)';
+      setTimeout(()=> document.getElementById('app').style.transform = 'none', 120);
+    });
+  </script>
+</body>
+</html>
